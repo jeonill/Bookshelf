@@ -1,10 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-$END$
+<div>
+    <div>
+
+    </div>
+</div>
+<div class="pagination-wrapper">
+                            <span class="pagination" th:with="start=${T(java.lang.Math).floor(members.number/10)*10 + 1},
+                                            last=${members.totalPages},
+                                            totalPage=${members.totalPages},
+                                            currentPage=${members.number},
+                                            isFirst=${members.first},
+                                            isLast=${members.last}">
+                                <a th:class="${isFirst} ? 'disable'"
+                                   th:href="@{/admin/member-mng(page=${currentPage})}">
+                                    <img class="controller-btn-left" src="/img/icon/btn_left.png">
+                                </a>
+                                <div class="index-box">
+                                    <a th:href="@{/admin/member-mng(page=1)}"
+                                       th:if="${totalPage < 4 ? false :currentPage > 1}" th:text="1"
+                                       aria-label="First">
+                                    </a>
+                                    <span th:if="${totalPage < 4 ? false :currentPage > 1}">...</span>
+                                    <a th:each="page: ${#numbers.sequence(start, last)}"
+                                       th:if="${isFirst ? (page == 0 ? false : page < currentPage + 4) :
+                                        (isLast ? page > currentPage - 2 : (page < currentPage + 3) && (page > currentPage - 1))}"
+                                       th:class="${page == currentPage + 1} ? 'active-index'" th:text="${page}"
+                                       th:href="@{/admin/member-mng(page=${page})}">
+                                    </a>
+                                    <span th:if="${totalPage < 4 ? false :currentPage < totalPage - 2}">...</span>
+                                    <a th:href="@{/admin/member-mng(page=${totalPage})}"
+                                       th:if="${totalPage < 4 ? false :currentPage < totalPage - 2}"
+                                       th:text="${totalPage}" aria-label="Last">
+                                    </a>
+                                </div>
+                                <a th:class="${isLast} ? 'disable'"
+                                   th:href="@{/admin/member-mng(page=${currentPage +2})}">
+                                    <img class="controller-btn-right" src="/img/icon/btn_right.png">
+                                </a>
+                            </span>
+</div>
 </body>
 </html>
